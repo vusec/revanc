@@ -17,6 +17,8 @@ of page table caches and the amount of entries that they contain on these microa
 the code is written with portability in mind, it should be easy to add support for other
 potentially affected platforms that share a similar MMU design.
 
+We invite you to our [project page](https://www.vusec.net/projects/anc/) for more information.
+
 Usage
 =====
 
