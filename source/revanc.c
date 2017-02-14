@@ -91,9 +91,10 @@ int brute_force_evict_set(struct page_format *fmt, void *evict_target,
 			for (run = 0; run < nruns; ++run) {
 				profile_page_table(timings, cache, level, i, ncache_lines,
 					nrounds, target, stride);
-				/* TODO: fix filter on ARMv7-A. */
-				filter_signals(timings, fmt, target, level->npages, ncache_lines,
-					npages_per_line, i);
+
+				if (fmt->flags & PAGE_FORMAT_FILTER)
+					filter_signals(timings, fmt, target, level->npages,
+						ncache_lines, npages_per_line, i);
 				normalise_timings(ntimings, timings, ncache_lines, level->npages);
 				solve_lines(&line, &page, ntimings, ncache_lines, level->npages,
 					npages_per_line);

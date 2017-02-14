@@ -21,6 +21,7 @@
 #endif
 
 /* Used to extract a bit field. */
+#define BIT(n) (1 << (n))
 #define EXTRACT(x, k, n) ((x) >> (k) & ((1 << (n)) - 1))
 
 /* Represents a register that is accessible using 8-bit, 16-bit and 32-bit

@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <macros.h>
+
 struct page_level {
 	size_t entry_size;
 	size_t nentries;
@@ -22,7 +24,10 @@ struct page_format {
 	const char *name;
 	struct page_level *levels;
 	size_t nlevels;
+	int flags;
 };
+
+#define PAGE_FORMAT_FILTER BIT(0)
 
 struct page_format *get_page_format(const char *name);
 struct page_format *get_default_page_format(void);
