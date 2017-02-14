@@ -40,7 +40,7 @@ struct page_level x86_64_page_levels[] = {
 };
 
 struct page_format page_formats[] = {
-	{ "x86-64", x86_64_page_levels, 4 },
+	{ "x86-64", x86_64_page_levels, 4, PAGE_FORMAT_FILTER },
 	{ NULL },
 };
 
