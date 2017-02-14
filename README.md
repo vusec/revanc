@@ -17,7 +17,7 @@ of page table caches and the amount of entries that they contain on these microa
 the code is written with portability in mind, it should be easy to add support for other
 potentially affected platforms that share a similar MMU design.
 
-We invite you to our [project page](https://www.vusec.net/projects/anc/) for more information.
+We invite you to visit our [project page](https://www.vusec.net/projects/anc/) for more information.
 
 Usage
 =====
@@ -76,3 +76,8 @@ Some ARMv7-A platforms have Large Physical Address Extensions enabled. If this i
 the `arm-lpae` page format has to be specified as well:
 
 	./obj/revanc --target=0x10040000 --evict-target=0x80000000 --runs=10 --cache-size=4M --pl1-entries1=544 --page-format=arm-lpae
+
+On ARMv8-A another target address is recommended. For instance, for the Allwinner A64, the
+following can be used:
+
+	./obj/revanc --target=0x116565000 --runs=10 --cache-size=2M --pl1-entries=522
