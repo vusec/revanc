@@ -6,12 +6,15 @@
 BUILD ?= obj
 all: $(BUILD)/anc
 
+# If PLAT is unset, try to determine it.
+PLAT ?= $(shell uname | tr '[A-Z]' '[a-z]')
+
 # If ARCH is unset, try to determine the architecture. 
 ARCH ?= $(shell uname -m | \
-	sed 's/\(aarch64\)/arm64/gi' | \
-	sed 's/\(armv7l\)/arm/gi' | \
-	sed 's/\(i[3-6]86\)/x86/gi' | \
-	sed 's/\(x86_64\)/x86-64/gi')
+	sed 's/\(aarch64\)/arm64/g' | \
+	sed 's/\(armv7l\)/arm/g' | \
+	sed 's/\(i[3-6]86\)/x86/g' | \
+	sed 's/\(x86_64\)/x86-64/g')
 
 # Check ARCH against a whitelist.
 ARCH := $(filter arm arm64 x86 x86-64,$(ARCH))
@@ -40,8 +43,8 @@ obj-y += source/profile.o
 obj-y += source/shuffle.o
 obj-y += source/solver.o
 obj-y += source/sysfs.o
-obj-y += source/thread.o
 obj-y += source/path.o
+obj-y += source/platform/thread_$(PLAT).o
 
 anc-obj-y += source/anc.o
 
@@ -100,10 +103,10 @@ $(BUILD)/%.o: %.S $(BUILD)/var/CFLAGS $(config-header)
 $(BUILD)/include/config.h: $(CONFIG)
 	@echo "GEN $@"
 	@mkdir -p $(dir $@)
-	@grep -Pi "^CONFIG_[A-Z_]*=.*$$" $(CONFIG) | \
-		sed 's/^\(.*\)=\(y\|yes\|1\)$$/#define \1 1/gi' | \
-		sed 's/^\(.*\)=\(n\|no\|0\)$$/#undef \1 /gi' | \
-		sed 's/^\(.*\)=\(.*\)$$/#define \1 \2/gi' \
+	@grep -Ei "^CONFIG_[A-Z_]*=.*$$" $(CONFIG) | \
+		sed 's/^\(.*\)=\(y\|yes\|1\)$$/#define \1 1/g' | \
+		sed 's/^\(.*\)=\(n\|no\|0\)$$/#undef \1 /g' | \
+		sed 's/^\(.*\)=\(.*\)$$/#define \1 \2/g' \
 		>> $@
 
 # Rule to clean up output files.
