@@ -8,7 +8,7 @@ order to speed up the next required translation. By flushing parts of the LLC an
 table lookup, AnC can identify which parts of the LLC store page tables. On top of flushing the
 LLC, AnC also needs to flush the TLB as well as page table caches. Since the information on the
 size of the TLB and the LCC is available, the AnC attack can be used to reverse engineer the
-properties iof the page table caches that are of interest to attackers, like their internal
+properties of the page table caches that are of interest to attackers, like their internal
 architecure and size. `revanc` is an implemention that retrofits AnC to acquire this information.
 
 With `anc`, we have demonstrated that numerous x86-64, ARMv7-A and ARMv8-A microarchitectures are
@@ -85,3 +85,30 @@ On ARMv8-A another target address is recommended. For instance, for the Allwinne
 following can be used:
 
 	./obj/revanc --target=0x116565000 --runs=10 --cache-size=2M --pl1-entries=522 --rounds=100
+
+Frequently Asked Questions (FAQ)
+================================
+
+Q. What processor architectures are currently supported/affected?
+
+The `anc` and `revanc` can currently be built for and run on the x86-64, ARMv7-A and ARMv8-A
+architectures and show that these architectures are affected.
+
+Q. What operating systems are currently supported?
+
+The code can currently be built for Linux, BSD and Mac OS X.
+
+Q. Does this attack work on hardened systems with ASLR enabled?
+
+Yes, the native implementation of the attack has been reported to work on an Intel Xeon E3-1505M v5
+running HardenedBSD/amd64 (thanks to Shawn Webb).
+
+Q. Does this attack work in virtualised environments?
+
+Yes, we have run this attack within KVM guests running Linux on an Intel Atom C2750 and an Intel
+Xeon E5-2658 v2. In fact, because the hypervisor makes use of the MMU as well, the page table
+and/or translation cache(c) used by the MMU may end up being (partially) evicted already, amplying
+the AnC attack. However, because the MMU is used by the hypervisor as well, the `revanc` program
+cannot reliably determine the sizes of these caches.
+
+For other questions, please refer to the [project page](https://www.vusec.net/projects/anc/) first.
