@@ -67,17 +67,21 @@ However, to optimise the results it is currently advised to specify the virtual 
 	./obj/revanc --target=0x222e2599000 --runs=10
 
 For ARMv7-A and ARMv8-A, the sizes of the caches and TLBs cannot be determined automatically yet.
-As such, it is important to specify these manually. For instance, for the Nvidia Tegra K1 the
-following can be used:
+As such, it is important to specify these manually. Further, while the ARMv7-A and ARMv8-A
+platforms do offer Performance Monitoring Units with a register similar to the Timestamp Counter on
+x86-64, this is not used as it is not accessible from user mode by default. On these platforms a
+thread that increments a volatile global variable simulating a cycle counter is used instead. Hence
+it is important to take more timing samples (e.g. 100 rather than the default of 10). For instance,
+for the Nvidia Tegra K1 the following can be used:
 
-	./obj/revanc --target=0x10040000 --evict-target=0x80000000 --runs=10 --cache-size=4M --pl1-entries1=544
+	./obj/revanc --target=0x10040000 --evict-target=0x80000000 --runs=10 --cache-size=4M --pl1-entries1=544 --rounds=100
 
 Some ARMv7-A platforms have Large Physical Address Extensions enabled. If this is the case, then
 the `arm-lpae` page format has to be specified as well:
 
-	./obj/revanc --target=0x10040000 --evict-target=0x80000000 --runs=10 --cache-size=4M --pl1-entries1=544 --page-format=arm-lpae
+	./obj/revanc --target=0x10040000 --evict-target=0x80000000 --runs=10 --cache-size=4M --pl1-entries1=544 --page-format=arm-lpae --rounds=100
 
 On ARMv8-A another target address is recommended. For instance, for the Allwinner A64, the
 following can be used:
 
-	./obj/revanc --target=0x116565000 --runs=10 --cache-size=2M --pl1-entries=522
+	./obj/revanc --target=0x116565000 --runs=10 --cache-size=2M --pl1-entries=522 --rounds=100
