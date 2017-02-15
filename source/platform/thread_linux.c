@@ -4,8 +4,8 @@
  */
 
 #include <stdlib.h>
-
 #include <pthread.h>
+#include <sched.h>
 
 int pin_cpu(size_t i)
 {
