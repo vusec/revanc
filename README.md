@@ -107,8 +107,8 @@ Q. Does this attack work in virtualised environments?
 
 Yes, we have run this attack within KVM guests running Linux on an Intel Atom C2750 and an Intel
 Xeon E5-2658 v2. In fact, because the hypervisor makes use of the MMU as well, the page table
-and/or translation cache(c) used by the MMU may end up being (partially) evicted already, amplying
-the AnC attack. However, because the MMU is used by the hypervisor as well, the `revanc` program
-cannot reliably determine the sizes of these caches.
+and/or translation cache(c) used by the MMU may end up being (partially) evicted already,
+amplifyingthe AnC attack. However, because the MMU is used by the hypervisor as well, the `revanc`
+program cannot reliably determine the sizes of these caches.
 
 For other questions, please refer to the [project page](https://www.vusec.net/projects/anc/) first.
