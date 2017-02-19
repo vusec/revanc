@@ -6,3 +6,4 @@ obj-y += source/posix/buffer.o
 obj-y += source/posix/cache.o
 obj-y += source/posix/path.o
 obj-y += source/posix/sysfs.o
+obj-y += source/linux/thread.o

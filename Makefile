@@ -53,7 +53,6 @@ obj-y += source/paging.o
 obj-y += source/profile.o
 obj-y += source/shuffle.o
 obj-y += source/solver.o
-obj-y += source/platform/thread_$(PLAT).o
 
 anc-obj-y += source/anc.o
 
