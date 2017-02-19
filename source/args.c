@@ -50,6 +50,36 @@ int parse_size(size_t *size, const char *s)
 	return 0;
 }
 
+int parse_array(size_t *values, size_t nvalues, const char *s)
+{
+	const char *p = s;
+	char *end;
+	size_t i;
+
+	for (i = 0; i < nvalues; ++i) {
+		p += strspn(p, " ");
+
+		if (*p == '-') {
+			p++;
+			continue;
+		}
+
+		values[i] = strtoul(p, &end, 10);
+		p = end;
+		p += strspn(p, " ");
+
+		if (*p == '\0')
+			break;
+
+		if (*p != ',')
+			return -1;
+
+		p++;
+	}
+
+	return 0;
+}
+
 void print_size(FILE *f, size_t size)
 {
 	if (size == 0) {
@@ -179,10 +209,12 @@ int parse_args(struct args *args, int argc, const char *argv[])
 		{ "cache-size", required_argument, 0, OPTION_CACHE_SIZE },
 		{ "rounds", required_argument, 0, OPTION_ROUNDS },
 		{ "tlb-entries", required_argument, 0, OPTION_PL1_ENTRIES },
+		{ "pl-entries", required_argument, 0, OPTION_PL_ENTRIES },
 		{ "pl1-entries", required_argument, 0, OPTION_PL1_ENTRIES },
 		{ "pl2-entries", required_argument, 0, OPTION_PL2_ENTRIES },
 		{ "pl3-entries", required_argument, 0, OPTION_PL3_ENTRIES },
 		{ "pl4-entries", required_argument, 0, OPTION_PL4_ENTRIES },
+		{ "pl-pages", required_argument, 0, OPTION_PL_PAGES },
 		{ "pl1-pages", required_argument, 0, OPTION_PL1_PAGES },
 		{ "pl2-pages", required_argument, 0, OPTION_PL2_PAGES },
 		{ "pl3-pages", required_argument, 0, OPTION_PL3_PAGES },
@@ -229,7 +261,10 @@ int parse_args(struct args *args, int argc, const char *argv[])
 				return -1;
 
 			break;
-
+		case OPTION_PL_ENTRIES:
+			if ((parse_array(args->nentries, 4, optarg)) < 0)
+				return -1;
+			break;
 		case OPTION_PL1_ENTRIES:
 		case OPTION_PL2_ENTRIES:
 		case OPTION_PL3_ENTRIES:
@@ -238,7 +273,10 @@ int parse_args(struct args *args, int argc, const char *argv[])
 				OPTION_PL1_ENTRIES, optarg)) < 0)
 				return -1;
 			break;
-
+		case OPTION_PL_PAGES:
+			if ((parse_array(args->npages,4, optarg)) < 0)
+				return -1;
+			break;
 		case OPTION_PL1_PAGES:
 		case OPTION_PL2_PAGES:
 		case OPTION_PL3_PAGES:
