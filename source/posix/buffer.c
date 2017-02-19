@@ -12,6 +12,10 @@
 #include "macros.h"
 #include "paging.h"
 
+#ifndef MAP_NORESERVE
+#define MAP_NORESERVE 0
+#endif /* MAP_NORESERVE */
+
 struct buffer *new_buffer(struct page_format *fmt, void *target)
 {
 	struct buffer *buffer;
