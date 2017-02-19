@@ -147,11 +147,11 @@ void show_usage(const char *prog_name)
 void detect_args(struct args *args)
 {
 	union cache_desc cache_descs[32], *cache_desc;
+	size_t nentries[4] = {0, 0, 0, 0};
 	size_t ncache_descs, i;
 
 	ncache_descs = get_cache_descs(cache_descs, 32);
 
-	memset(args->nentries, 0, sizeof args->nentries);
 	args->cache_size = 0;
 	args->line_size = 0;
 
@@ -166,15 +166,15 @@ void detect_args(struct args *args)
 				break;
 
 			if ((cache_desc->tlb.page_size & TLB_4K_PAGE)) {
-				args->nentries[0] += cache_desc->tlb.nentries;
+				nentries[0] += cache_desc->tlb.nentries;
 			}
 
 			if ((cache_desc->tlb.page_size & TLB_2M_PAGE)) {
-				args->nentries[1] += cache_desc->tlb.nentries;
+				nentries[1] += cache_desc->tlb.nentries;
 			}
 
 			if ((cache_desc->tlb.page_size & TLB_1G_PAGE)) {
-				args->nentries[2] += cache_desc->tlb.nentries;
+				nentries[2] += cache_desc->tlb.nentries;
 			}
 
 			break;
@@ -190,11 +190,19 @@ void detect_args(struct args *args)
 		default: break;
 		}
 	}
+
+	for (i = 0; i < 4; ++i) {
+		if (args->nentries[i] == SIZE_MAX)
+			args->nentries[i] = nentries[i];
+	}
 }
 #else
 void detect_args(struct args *args)
 {
-	(void)args;
+	for (i = 0; i < 4; ++i) {
+		if (args->nentries[i] == SIZE_MAX)
+			args->nentries[i] = 0;
+	}
 }
 #endif
 
