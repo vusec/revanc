@@ -25,7 +25,8 @@ volatile cycles_t timer_cycles;
 
 static int cmp_uint64(const void *lhs, const void *rhs)
 {
-	return memcmp(lhs, rhs, sizeof(uint64_t));
+	uint64_t a = *(uint64_t*)lhs, b = *(uint64_t*)rhs;
+	return a < b ? -1 : (a > b ? 1 : 0);
 }
 
 static FILE *vfopenf(const char *fname, const char *mode, va_list ap)
