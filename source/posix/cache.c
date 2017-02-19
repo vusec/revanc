@@ -14,6 +14,10 @@
 #include "paging.h"
 #include "macros.h"
 
+#ifndef MAP_NORESERVE
+#define MAP_NORESERVE 0
+#endif /* MAP_NORESERVE */
+
 struct cache *new_cache(struct page_format *fmt, void *target,
 	size_t cache_size, size_t line_size)
 {
