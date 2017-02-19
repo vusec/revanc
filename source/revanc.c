@@ -149,7 +149,7 @@ int main(int argc, const char *argv[])
 {
 	struct args args = {
 		.npages = { 128, 128, 128, 128 },
-		.nentries = { 128, 16, 0, 0 },
+		.nentries = { SIZE_MAX, SIZE_MAX, SIZE_MAX, SIZE_MAX },
 		.nrounds = 10,
 		.line_size = 64,
 		.nruns = 1,
