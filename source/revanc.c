@@ -135,7 +135,8 @@ int brute_force_evict_set(struct page_format *fmt, void *evict_target,
 			}
 		}
 
-		printf("found cache entries: %zu\n", level->ncache_entries);
+		printf("found PL%zu cache entries: %zu\n", (i + 1),
+			level->ncache_entries);
 
 		free(ntimings);
 		free(timings);
