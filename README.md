@@ -96,7 +96,7 @@ architectures and show that these architectures are affected.
 
 Q. What operating systems are currently supported?
 
-The code can currently be built for Linux, BSD and Mac OS X.
+The code can currently be built for BSD, Linux, Mac OS X and Microsoft Windows (using MSYS 2).
 
 Q. Does this attack work on hardened systems with ASLR enabled?
 
