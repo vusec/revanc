@@ -50,6 +50,9 @@ int brute_force_evict_set(struct page_format *fmt, void *evict_target,
 	}
 
 	for (i = 0, level = fmt->levels; i < fmt->nlevels; ++i, ++level) {
+		if (level->npages == 0)
+			continue;
+
 		stride = level->page_size;
 
 		ncache_lines = level->table_size / line_size;
