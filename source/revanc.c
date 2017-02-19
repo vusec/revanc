@@ -150,7 +150,9 @@ int main(int argc, const char *argv[])
 		.line_size = 64,
 		.nruns = 1,
 		.threshold = 70.0,
-		.output = "results"
+		.output = "results",
+		.target = 0,
+		.evict_target = 0,
 	};
 	struct buffer *buffer;
 	struct page_format *page_format;
