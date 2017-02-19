@@ -44,12 +44,6 @@ int brute_force_evict_set(struct page_format *fmt, void *evict_target,
 	size_t mult2, mult3;
 
 	for (i = 0, level = fmt->levels; i < fmt->nlevels; ++i, ++level) {
-		if (i > 0) {
-			level->ncache_entries = 0;
-		}
-	}
-
-	for (i = 0, level = fmt->levels; i < fmt->nlevels; ++i, ++level) {
 		if (level->npages == 0)
 			continue;
 
