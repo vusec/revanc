@@ -8,3 +8,4 @@ obj-y += source/msw/buffer.o
 obj-y += source/msw/cache.o
 obj-y += source/msw/path.o
 obj-y += source/msw/sysfs.o
+obj-y += source/msw/thread.o
