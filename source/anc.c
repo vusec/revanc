@@ -54,12 +54,12 @@ int main(int argc, const char *argv[])
 		return -1;
 	}
 
-	detect_args(&args);
-
 	if (parse_args(&args, argc, argv) < 0) {
 		show_usage(argv[0]);
 		return -1;
 	}
+
+	detect_args(&args);
 
 	if (!args.line_size) {
 		dprintf("unable to detect line size, please specify the cache "
