@@ -23,7 +23,7 @@ struct buffer *new_buffer(struct page_format *fmt, void *target)
 	if (target)
 		flags |= MAP_FIXED;
 
-	if (!(buffer = malloc(sizeof *buffer)))
+	if (!(buffer = calloc(1,sizeof *buffer)))
 		return NULL;
 
 	for (i = 0, level = fmt->levels; i < fmt->nlevels; ++i, ++level) {
