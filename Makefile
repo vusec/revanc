@@ -7,19 +7,32 @@ BUILD ?= obj
 all: $(BUILD)/anc
 
 # If PLAT is unset, try to determine it.
-PLAT ?= $(shell uname | tr '[A-Z]' '[a-z]')
+PLAT ?= $(shell uname -s | tr [:upper:] [:lower:] | \
+	sed 's/dragonfly/bsd/g' | \
+	sed 's/.*bsd/bsd/g' | \
+	sed 's/cygwin.*/msw/g' | \
+	sed 's/msys.*/msw/g' | \
+	sed 's/mingw.*/msw/g' | \
+	sed 's/windows.*/msw/g')
 
 # If ARCH is unset, try to determine the architecture. 
 ARCH ?= $(shell uname -m | \
-	sed 's/\(aarch64\)/arm64/g' | \
-	sed 's/\(armv7l\)/arm/g' | \
-	sed 's/\(i[3-6]86\)/x86/g' | \
-	sed 's/\(x86_64\)/x86-64/g')
+	sed 's/aarch64/arm64/g' | \
+	sed 's/armv7l/arm/g' | \
+	sed 's/i[3-6]86/x86/g' | \
+	sed 's/x86_64/x86-64/g' | \
+	sed 's/amd64/x86-64/g')
 
-# Check ARCH against a whitelist.
+# Check PLAT and ARCH against a whitelist.
+PLAT := $(filter bsd darwin linux msw,$(PLAT))
 ARCH := $(filter arm arm64 x86 x86-64,$(ARCH))
 
-# If ARCH is still unset, then the architecture is not (yet) supported.
+# If PLAT and ARCH are still unset, then the architecture is not (yet)
+# supported.
+ifeq ($(PLAT),)
+$(error No support available for the target platform)
+endif
+
 ifeq ($(ARCH),)
 $(error No support available for the target architecture)
 endif
@@ -35,15 +48,11 @@ LDFLAGS += -flto -Os
 LIBS += -lpthread
 
 obj-y += source/args.o
-obj-y += source/buffer.o
-obj-y += source/cache.o
 obj-y += source/macros.o
 obj-y += source/paging.o
 obj-y += source/profile.o
 obj-y += source/shuffle.o
 obj-y += source/solver.o
-obj-y += source/sysfs.o
-obj-y += source/path.o
 obj-y += source/platform/thread_$(PLAT).o
 
 anc-obj-y += source/anc.o
@@ -51,6 +60,7 @@ anc-obj-y += source/anc.o
 revanc-obj-y += source/revanc.o
 
 -include source/$(ARCH)/Makefile
+-include source/$(PLAT)/Makefile
 
 config-header = $(BUILD)/include/config.h
 CFLAGS += -I$(BUILD)/include
