@@ -40,7 +40,7 @@ struct buffer *new_buffer(struct page_format *fmt, void *target)
 		page = buffer->data;
 
 		for (i = 0; i < level->npages; ++i) {
-			VirtualAlloc(page, 4096, MEM_COMMIT, PAGE_READWRITE);
+			VirtualAlloc(page, 4 * KIB, MEM_COMMIT, PAGE_READWRITE);
 			page += level->page_size;
 		}
 	}
