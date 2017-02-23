@@ -4,6 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 import os
+import sys
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,6 +12,9 @@ import matplotlib.patches as patches
 from matplotlib.backends.backend_pdf import PdfPages
 
 def get_cpu_name():
+    if 'darwin' == sys.platform:
+        return os.popen("sysctl -n machdep.cpu.brand_string").read().strip()
+
     with open('/proc/cpuinfo') as f:
         for line in f:
             if line.startswith('model name'):
@@ -48,7 +52,7 @@ def plot_levels(input, attempt, output, cpu_name):
 
             ys = np.arange(0, data.shape[0] + npages_per_line, npages_per_line) - page
             xs = (line + (ys + page) // npages_per_line) % data.shape[1]
-            
+
             for x, y in zip(xs, ys):
                 rect = patches.Rectangle((x, y), 1, npages_per_line, linewidth=1,
                     edgecolor='red', facecolor='none')
