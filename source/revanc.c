@@ -101,7 +101,7 @@ int brute_force_evict_set(struct page_format *fmt, void *evict_target,
 				slot &= level->slot_mask;
 				expected_slot &= level->slot_mask;
 
-				if (fabs(slot - expected_slot) <= 1.0) {
+				if (fabs((float)slot - expected_slot) <= 1.0) {
 					++success;
 					putc('#', stdout);
 				} else {
