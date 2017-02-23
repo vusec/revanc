@@ -233,7 +233,7 @@ int parse_args(struct args *args, int argc, const char *argv[])
 		{ "runs", required_argument, 0, OPTION_RUNS },
 		{ "threshold", required_argument, 0, OPTION_THRESHOLD },
 		{ "output", required_argument, 0, OPTION_OUTPUT },
-		{ 0 },
+		{ NULL, 0, 0, 0 },
 	};
 	int ret;
 
@@ -247,7 +247,7 @@ int parse_args(struct args *args, int argc, const char *argv[])
 		case OPTION_TARGET:
 			if ((parse_addr(&args->target, optarg)) < 0)
 				return -1;
-			
+
 			break;
 		case OPTION_EVICT_TARGET:
 			if ((parse_addr(&args->evict_target, optarg)) < 0)

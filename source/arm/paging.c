@@ -52,5 +52,5 @@ struct page_level arm_lpae_page_levels[] = {
 struct page_format page_formats[] = {
 	{ "arm", arm_page_levels, 2, 0 },
 	{ "arm-lpae", arm_lpae_page_levels, 2, PAGE_FORMAT_FILTER },
-	{ NULL },
+	{ NULL, 0, 0, 0 },
 };

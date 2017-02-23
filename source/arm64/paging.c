@@ -98,6 +98,6 @@ struct page_format page_formats[] = {
 	{ "arm64-4K-va48", arm64_4k_page_levels, 4, PAGE_FORMAT_FILTER },
 	{ "arm64-16K", arm64_16k_page_levels, 4, PAGE_FORMAT_FILTER },
 	{ "arm64-64K", arm64_64k_page_levels, 3, PAGE_FORMAT_FILTER },
-	{ NULL },
+	{ NULL, 0, 0, 0 },
 };
 
