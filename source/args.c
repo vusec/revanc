@@ -199,6 +199,8 @@ void detect_args(struct args *args)
 #else
 void detect_args(struct args *args)
 {
+	size_t i;
+
 	for (i = 0; i < 4; ++i) {
 		if (args->nentries[i] == SIZE_MAX)
 			args->nentries[i] = 0;
